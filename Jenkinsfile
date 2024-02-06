@@ -72,7 +72,7 @@ pipeline {
                 sshTransfer(
                   cleanRemote: false,
                   excludes: '',
-                  execCommand: "tar -xzvf ${RELEASES_DIR}/${NUMBERED_DIR}/${BUILD_FILE} && sudo chown -R www-data:www-data /var/www/vhosts/ftiersch.de/releases/${NUMBERED_DIR}",
+                  execCommand: "tar -xzvf ${BUILD_FILE} -C ${RELEASES_DIR}/${NUMBERED_DIR} . && sudo chown -R www-data:www-data /var/www/vhosts/ftiersch.de/releases/${NUMBERED_DIR}",
                   execTimeout: 120000,
                   flatten: true,
                   makeEmptyDirs: true,
