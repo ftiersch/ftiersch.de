@@ -72,13 +72,13 @@ pipeline {
                 sshTransfer(
                   cleanRemote: false,
                   excludes: '',
-                  execCommand: "mkdir -p ${NUMBERED_DIR} && tar -xzvf ${BUILD_FILE} -C ${NUMBERED_DIR}",
+                  execCommand: "sudo chown -R www-data\:www-data /var/www/vhosts/ftiersch.de/releases/${NUMBERED_DIR} && tar -xzvf ${BUILD_FILE} -C ${NUMBERED_DIR}",
                   execTimeout: 120000,
                   flatten: true,
                   makeEmptyDirs: true,
                   noDefaultExcludes: false,
                   patternSeparator: '[, ]+',
-                  remoteDirectory: 'ftiersch.de/releases',
+                  remoteDirectory: 'ftiersch.de/releases/${NUMBERED_DIR}',
                   remoteDirectorySDF: false,
                   sourceFiles: "${BUILD_FILE}"
                 )
