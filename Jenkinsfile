@@ -39,7 +39,7 @@ pipeline {
        sh 'cp .env.build .env'
        sh '${DOCKER_BUILD_COMMAND} artisan key:generate'
        sh '${DOCKER_BUILD_COMMAND} npm install'
-       sh '${DOCKER_BUILD_COMMAND} npm run prod'
+       sh '${DOCKER_BUILD_COMMAND} npm build'
       }
     }
 
