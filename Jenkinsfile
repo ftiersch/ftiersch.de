@@ -78,7 +78,7 @@ pipeline {
                   makeEmptyDirs: true,
                   noDefaultExcludes: false,
                   patternSeparator: '[, ]+',
-                  remoteDirectory: 'ftiersch.de/releases/${NUMBERED_DIR}',
+                  remoteDirectory: "ftiersch.de/releases/${NUMBERED_DIR}",
                   remoteDirectorySDF: false,
                   sourceFiles: "${BUILD_FILE}"
                 )
