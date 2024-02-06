@@ -72,7 +72,7 @@ pipeline {
                 sshTransfer(
                   cleanRemote: false,
                   excludes: '',
-                  execCommand: "tar -xzvf ${BUILD_FILE} -C ${NUMBERED_DIR}",
+                  execCommand: "mkdir -p ${NUMBERED_DIR} && tar -xzvf ${BUILD_FILE} -C ${NUMBERED_DIR}",
                   execTimeout: 120000,
                   flatten: true,
                   makeEmptyDirs: true,
