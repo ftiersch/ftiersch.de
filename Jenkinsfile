@@ -94,7 +94,6 @@ pipeline {
     always {
       sh 'rm -f *.gz'
       sh 'rm -rf node_modules'
-      sh 'rm -rf vendor'
       sh 'rm -rf ${BUILD_FILE}'
       sh '${DOCKER_BUILD_COMMAND} down'
     }
