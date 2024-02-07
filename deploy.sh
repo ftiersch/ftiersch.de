@@ -25,4 +25,4 @@ php artisan migrate --force
 
 # delete old releases
 cd ..
-sudo ls -1t | tail +3 | xargs rm -rf
+sudo sh -c 'ls -1t | tail +3 | xargs rm -rf'
