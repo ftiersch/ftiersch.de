@@ -56,7 +56,7 @@ pipeline {
     stage('Build artifact') {
       steps {
         sh 'touch ${BUILD_FILE}'
-        sh 'tar --exclude=${BUILD_FILE} --exclude=node_modules -czf "${BUILD_FILE}" -C "${WORKSPACE}" .'
+        sh 'tar --exclude=${BUILD_FILE} --exclude=node_modules --exclude=.git -czf "${BUILD_FILE}" -C "${WORKSPACE}" .'
       }
     }
 

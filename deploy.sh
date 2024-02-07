@@ -12,8 +12,17 @@ sudo ln -s "$(pwd)/../../uploads" ./storage/app/public
 sudo rm -rf ./storage/logs
 sudo ln -s "$(pwd)/../../logs" ./storage/logs
 
+# change ownership for symlinks
+sudo chown -h www-data:www-data ./public/storage
+sudo chown -h www-data:www-data ./storage/app/public
+sudo chown -h www-data:www-data ./storage/logs
+
 sudo rm ../../current
 sudo ln -s "$(pwd)/public" ../../current
 sudo chown -h www-data:www-data ../../current
 
 php artisan migrate --force
+
+# delete old releases
+cd ..
+sudo ls -1t | tail +3 | xargs rm -rf
