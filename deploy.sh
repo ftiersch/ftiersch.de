@@ -7,7 +7,7 @@ sudo chown -R www-data:www-data ./*
 # todo: symlink logs
 
 sudo rm ../../current
-sudo ln -s ./public ../../current
+sudo ln -s "$(pwd)/public" ../../current
 sudo chown -h www-data:www-data ../../current
 
 php artisan migrate --force
