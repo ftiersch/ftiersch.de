@@ -72,7 +72,7 @@ pipeline {
                 sshTransfer(
                   cleanRemote: false,
                   excludes: '',
-                  execCommand: "tar -xzvf ${RELEASES_DIR}/${NUMBERED_DIR}/${BUILD_FILE} -C ${RELEASES_DIR}/${NUMBERED_DIR} . && chmod +x ${RELEASES_DIR}/${NUMBERED_DIR}/deploy.sh && cd ${RELEASES_DIR}/${NUMBERED_DIR} && sudo deploy.sh && rm ${RELEASES_DIR}/${NUMBERED_DIR}/deploy.sh",
+                  execCommand: "tar -xzvf ${RELEASES_DIR}/${NUMBERED_DIR}/${BUILD_FILE} -C ${RELEASES_DIR}/${NUMBERED_DIR} . && chmod +x ${RELEASES_DIR}/${NUMBERED_DIR}/deploy.sh && cd ${RELEASES_DIR}/${NUMBERED_DIR} && ./deploy.sh && rm ${RELEASES_DIR}/${NUMBERED_DIR}/deploy.sh",
                   execTimeout: 120000,
                   flatten: true,
                   makeEmptyDirs: true,
