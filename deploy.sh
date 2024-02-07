@@ -1,10 +1,16 @@
 #!/bin/bash
 
 sudo chown -R www-data:www-data ./*
-# cp ../../deploy/.env .env
+cp ../../deploy/.env .env
 
-# todo: symlink uploads
-# todo: symlink logs
+# symlink uploads to not lose them
+sudo ln -s "$(pwd)/../../uploads" ./public/storage
+sudo rm -rf ./storage/app/public
+sudo ln -s "$(pwd)/../../uploads" ./storage/app/public
+
+# symlink logs to not lose them
+sudo rm -rf ./storage/logs
+sudo ln -s "$(pwd)/../../logs" ./storage/logs
 
 sudo rm ../../current
 sudo ln -s "$(pwd)/public" ../../current
