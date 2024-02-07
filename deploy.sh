@@ -24,5 +24,8 @@ sudo chown -h www-data:www-data ../../current
 php artisan migrate --force
 
 # delete old releases
-cd ..
-sh -c "ls -1t | tail +3 | xargs rm -rf"
+old_releases=($(ls -1t .. | tail +3))
+
+for ((i=0; i < ${#old_releases[@]}; i++)); do
+  sudo rm -rf "../${old_releases[$i]}"
+done
