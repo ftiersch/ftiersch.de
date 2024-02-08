@@ -15,7 +15,7 @@ return new class extends Migration
         Schema::create('projects', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignIdFor(ProjectCategory::class)->nullable()->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(ProjectCategory::class)->constrained()->cascadeOnDelete();
 
             $table->boolean('visible_on_website')->default(false);
             $table->boolean('visible_in_pdf')->default(false);
