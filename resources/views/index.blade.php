@@ -1,473 +1,193 @@
+@inject('content', 'App\Services\ContentPieceService')
+
 <!DOCTYPE HTML>
-<html>
+<html lang="{{ app()->getLocale() }}">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Old Profile</title>
+    <title>{{ $content->__('frontpage.seo.title') }}</title>
 
-    <!-- Facebook and Twitter integration -->
-    <meta property="og:title" content=""/>
-    <meta property="og:image" content=""/>
-    <meta property="og:url" content=""/>
-    <meta property="og:site_name" content=""/>
-    <meta property="og:description" content=""/>
-    <meta name="twitter:title" content="" />
-    <meta name="twitter:image" content="" />
-    <meta name="twitter:url" content="" />
-    <meta name="twitter:card" content="" />
+    <meta name="description" content="{{ $content->__('frontpage.seo.meta.description') }}" />
+
+    <meta name="og:type" content="website" />
+    <meta name="og:url" content="{{ url()->current() }}" />
+    @if($content->exists('frontpage.seo.og.title'))
+        <meta property="og:title" content="{{ $content->__('frontpage.seo.og.title') }}" />
+    @endif
+    @if($content->exists('frontpage.seo.og.image'))
+        <meta property="og:image" content="{{ $content->__('frontpage.seo.og.title') }}" />
+    @endif
+
+    @if(app()->isLocale('en'))
+        <link rel=”alternate” hreflang=”de-de” href=”{{ request()->getSchemeAndHttpHost() . '/de' }}” />
+    @else
+        <link rel=”alternate” hreflang=”en-us” href=”{{ request()->getSchemeAndHttpHost() . '/en' }}” />
+    @endif
 
     <link href="https://fonts.googleapis.com/css?family=Space+Mono" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Kaushan+Script" rel="stylesheet">
 
-    <!-- Animate.css -->
-    <link rel="stylesheet" href="css/animate.css">
-    <!-- Icomoon Icon Fonts-->
-    <link rel="stylesheet" href="css/icomoon.css">
-    <!-- Bootstrap  -->
-    <link rel="stylesheet" href="css/bootstrap.css">
-
-    <!-- Modernizr JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.js"></script>
+    @vite('resources/css/app.css')
 
 </head>
 <body>
 
-<div class="fh5co-loader"></div>
+<div id="loader" class="fixed left-0 top-0 w-full h-full bg-loader bg-center bg-no-repeat bg-white z-50"></div>
 
-<div id="page">
-    <header id="fh5co-header" class="fh5co-cover js-fullheight" role="banner" style="background-image:url(images/cover_bg_3.jpg);" data-stellar-background-ratio="0.5">
-        <div class="overlay"></div>
-        <div class="container">
-            <div class="row">
-                <div class="col-md-8 col-md-offset-2 text-center">
-                    <div class="display-t js-fullheight">
-                        <div class="display-tc js-fullheight animate-box" data-animate-effect="fadeIn">
-                            <div class="profile-thumb" style="background: url(images/user-3.jpg);"></div>
-                            <h1><span>Louie Jie Mahusay</span></h1>
-                            <h3><span>Web Developer / Photographer</span></h3>
-                            <p>
-                            <ul class="fh5co-social-icons">
-                                <li><a href="#"><i class="icon-twitter2"></i></a></li>
-                                <li><a href="#"><i class="icon-facebook2"></i></a></li>
-                                <li><a href="#"><i class="icon-linkedin2"></i></a></li>
-                                <li><a href="#"><i class="icon-dribbble2"></i></a></li>
-                            </ul>
-                            </p>
-                        </div>
-                    </div>
-                </div>
+<div class="relative overflow-x-hidden w-full h-full">
+    <header class="relative h-600 w-full bg-transparent bg-cover bg-fixed js-fullheight" @if($content->exists('frontpage.images.splash')) style="background-image: url('{{ $content->media('frontpage.images.splash')?->getUrl() ?? null }}');" @endif role="banner" data-stellar-background-ratio="0.5">
+        <div class="absolute top-0 bottom-0 left-0 right-0 bg-brand bg-opacity-90"></div>
+        <div class="flex h-screen">
+            <div class="m-auto text-center transition-opacity ease-in duration-200 opacity-0 js-show-on-loaded">
+                <div class="relative w-[200px] h-[200px] rounded-full my-0 mx-auto mb-[30px] bg-cover bg-center bg-no-repeat" @if($content->exists('frontpage.images.profile')) style="background-image: url('{{ $content->media('frontpage.images.profile')?->getUrl('content') ?? null }}');" @endif></div>
+                <h1 class="mb-6 text-white text-[50px] font-kaushan font-[300] -rotate-6">
+                    <span class="relative px-[15px] py-[4px] before:absolute before:top-[40px] before:left-0 before:w-[30px] before:h-[4px] before:bg-white before:content-[''] before:ml-[-30px] after:absolute after:top-[40px] after:right-0 after:w-[30px] after:h-[4px] after:bg-white after:content-[''] after:mr-[-30px]">{{ $content->__('frontpage.splash.title') }}</span>
+                </h1>
+                <h3 class="text-white rotate-0 font-[400] mb-4"><span>{{ $content->__('frontpage.splash.subtitle') }}</span></h3>
             </div>
         </div>
     </header>
 
-    <div id="fh5co-about" class="animate-box">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-8 col-md-offset-2 text-center fh5co-heading">
-                    <h2>About Me</h2>
-                </div>
+    <div class="py-14 px-0">
+        <div class="mx-auto max-w-7xl">
+            <div class="mb-24 text-center">
+                <h2 class="text-[40px] mb-[20px] text-black">{{ $content->__('frontpage.headlines.about') }}</h2>
             </div>
-            <div class="row">
-                <div class="col-md-4">
-                    <ul class="info">
-                        <li><span class="first-block">Full Name:</span><span class="second-block">Louie Jie Mahusay</span></li>
-                        <li><span class="first-block">Phone:</span><span class="second-block">+ 1235 2355 98</span></li>
-                        <li><span class="first-block">Email:</span><span class="second-block">info@yoursite.com</span></li>
-                        <li><span class="first-block">Website:</span><span class="second-block">www.yoursite.com</span></li>
-                        <li><span class="first-block">Address:</span><span class="second-block">198 West 21th Street, Suite 721 New York NY 10016</span></li>
-                    </ul>
+            <div class="grid grid-cols-1 px-4 lg:px-0 lg:grid-cols-3 gap-4 w-full">
+                <div class="col-span-full lg:col-span-1 mb-8 lg:mb-0 px-4">
+                    <div class="grid grid-cols-10 gap-4">
+                        <div class="col-span-3 font-bold">{{ $content->__('frontpage.about.label.name') }}:</div><div class="col-span-7">{{ $content->__('frontpage.about.content.name') }}</div>
+                        <div class="col-span-3 font-bold">{{ $content->__('frontpage.about.label.phone') }}:</div><div class="col-span-7">{{ $content->__('frontpage.about.content.phone') }}</div>
+                        <div class="col-span-3 font-bold">{{ $content->__('frontpage.about.label.email') }}:</div><div class="col-span-7">{{ $content->__('frontpage.about.content.email') }}</div>
+                        <div class="col-span-3 font-bold">{{ $content->__('frontpage.about.label.address') }}:</div><div class="col-span-7">{!! nl2br($content->__('frontpage.about.content.address')) !!}</div>
+                    </div>
                 </div>
-                <div class="col-md-8">
-                    <h2>Hello There!</h2>
-                    <p>There live the blind texts far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in bookmarksgrove there live the blind texts far from the countries.</p>
-                    <p>Far far away, behind the word mountains, Quos quia provident consequuntur culpa facere ratione maxime commodi voluptates id repellat velit eaque aspernatur expedita. Possimus itaque adipisci there live the blind texts from the countries Vokalia and Consonantia, there live the blind texts. Quos quia provident consequuntur culpa facere ratione maxime commodi voluptates id repellat velit eaque aspernatur expedita. Possimus itaque adipisci.</p>
+                <div class="col-span-full lg:col-span-2 px-4">
+                    <h2 class="text-[30px] font-[400] leading-[24px] mb-6">{{ $content->__('frontpage.about.headline') }}</h2>
+                    <p class="mb-8">{!! nl2br($content->__('frontpage.about.text')) !!}</p>
                     <p>
-                    <ul class="fh5co-social-icons">
-                        <li><a href="#"><i class="icon-twitter2"></i></a></li>
-                        <li><a href="#"><i class="icon-facebook3"></i></a></li>
-                        <li><a href="#"><i class="icon-linkedin2"></i></a></li>
-                        <li><a href="#"><i class="icon-dribbble2"></i></a></li>
-                    </ul>
+                        <ul class="flex flex-wrap text-white text-[20px] font-[400]">
+                            @foreach($socials as $social)
+                                <li>
+                                    <a href="{{ $social->url }}" target="_blank" rel="nofollow" class="block bg-black rounded-[2px] w-[40px] h-[40px] mr-2 flex items-center justify-center transition-colors ease-in-out hover:bg-brand duration-300">
+                                        @svg($social->icon, 'w-[30px] h-[30px]')
+                                    </a>
+                                </li>
+                            @endforeach
+                        </ul>
                     </p>
                 </div>
             </div>
         </div>
     </div>
 
-    <div id="fh5co-resume" class="fh5co-bg-color">
-        <div class="container">
-            <div class="row animate-box">
-                <div class="col-md-8 col-md-offset-2 text-center fh5co-heading">
-                    <h2>My Resume</h2>
-                </div>
+    <div class="py-24 mt-20 bg-contrary">
+        <div class="mx-auto max-w-7xl">
+            <div class="w-full text-center">
+                <h2 class="text-white text-[40px] mb-24">{{ $content->__('frontpage.headlines.resume') }}</h2>
             </div>
-            <div class="row">
-                <div class="col-md-12 col-md-offset-0">
-                    <ul class="timeline">
-                        <li class="timeline-heading text-center animate-box">
-                            <div><h3>Work Experience</h3></div>
-                        </li>
-                        <li class="animate-box timeline-unverted">
-                            <div class="timeline-badge"><i class="icon-suitcase"></i></div>
-                            <div class="timeline-panel">
-                                <div class="timeline-heading">
-                                    <h3 class="timeline-title">Senior Developer</h3>
-                                    <span class="company">Company Name - 2016 - Current</span>
-                                </div>
-                                <div class="timeline-body">
-                                    <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="timeline-inverted animate-box">
-                            <div class="timeline-badge"><i class="icon-suitcase"></i></div>
-                            <div class="timeline-panel">
-                                <div class="timeline-heading">
-                                    <h3 class="timeline-title">Junior Developer</h3>
-                                    <span class="company">Company Name - 2013 - 2015</span>
-                                </div>
-                                <div class="timeline-body">
-                                    <p>Far far away, behind the word mountains, they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="animate-box timeline-unverted">
-                            <div class="timeline-badge"><i class="icon-suitcase"></i></div>
-                            <div class="timeline-panel">
-                                <div class="timeline-heading">
-                                    <h3 class="timeline-title">UI/UX Designer</h3>
-                                    <span class="company">Company Name - 2010 - 2012</span>
-                                </div>
-                                <div class="timeline-body">
-                                    <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-                                </div>
-                            </div>
-                        </li>
-
-                        <br>
-                        <li class="timeline-heading text-center animate-box">
-                            <div><h3>Education</h3></div>
-                        </li>
-                        <li class="timeline-inverted animate-box">
-                            <div class="timeline-badge"><i class="icon-graduation-cap"></i></div>
-                            <div class="timeline-panel">
-                                <div class="timeline-heading">
-                                    <h3 class="timeline-title">Masters Degree</h3>
-                                    <span class="company">University Name - 2007 - 2009</span>
-                                </div>
-                                <div class="timeline-body">
-                                    <p>Far far away, behind the word mountains, they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="animate-box timeline-unverted">
-                            <div class="timeline-badge"><i class="icon-graduation-cap"></i></div>
-                            <div class="timeline-panel">
-                                <div class="timeline-heading">
-                                    <h3 class="timeline-title">Bachelors Degree</h3>
-                                    <span class="company">University Name - 2002 - 2006</span>
-                                </div>
-                                <div class="timeline-body">
-                                    <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="timeline-inverted animate-box">
-                            <div class="timeline-badge"><i class="icon-graduation-cap"></i></div>
-                            <div class="timeline-panel">
-                                <div class="timeline-heading">
-                                    <h3 class="timeline-title">Diploma Course</h3>
-                                    <span class="company">College Name - 1999 - 2001</span>
-                                </div>
-                                <div class="timeline-body">
-                                    <p>Far far away, behind the word mountains, they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="animate-box timeline-unverted">
-                            <div class="timeline-badge"><i class="icon-graduation-cap"></i></div>
-                            <div class="timeline-panel">
-                                <div class="timeline-heading">
-                                    <h3 class="timeline-title">Graduation</h3>
-                                    <span class="company">College Name - 1994 - 1998</span>
-                                </div>
-                                <div class="timeline-body">
-                                    <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
+            <div class="relative">
+                <div class="absolute w-[2px] h-full lg:transform -lg:translate-x-1/2 bg-gray-300 dark:bg-gray-600 block left-[40px] lg:left-1/2 z-0 mt-8">
                 </div>
+                @foreach($projectCategories as $category => $projects)
+                    <div class="text-left lg:text-center pt-8">
+                        <span class="relative bg-gray-300 rounded-[4px] tracking-[5px] uppercase text-[18px] font-[700] px-[15px] py-[7px] ml-[15px] lg:mx-auto z-10">{{ $projects->first()->category->title }}</span>
+                        <div class="mt-10">
+                            @foreach ($projects as $project)
+                                <div class="absolute lg:left-1/2 w-[44px] h-[44px] ml-[19px] lg:-ml-[22px] rounded-full bg-brand text-white mx-auto flex items-center justify-center">
+                                    <i class="icon-suitcase text-[18px]"></i>
+                                </div>
+                                <div class="relative mb-8 w-full flex items-center justify-start text-left pl-24 {{ $loop->iteration % 2 == 0 ? 'lg:justify-end lg:pl-20' : 'lg:text-right lg:pr-20 lg:pl-0' }}">
+                                    <div class="w-full lg:w-1/2 {{ $loop->iteration % 2 == 0 ? 'lg:pr-4' : 'lg:pl-4' }}">
+                                        <div class="mb-5">
+                                            <h3 class="text-[24px] text-stone-300 mb-5">{{ $project->title }}</h3>
+                                            <span class="text-[16px] text-white">{{ $project->location }} - {{ $project->started_at->format('m/Y') }} - {{ !empty($project->finished_at) ? $project->finished_at->format('m/Y') : 'Current' }}</span>
+                                        </div>
+                                        <div class="text-[16px] text-stone-400">
+                                            <p>{{ $project->description }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                @endforeach
             </div>
         </div>
     </div>
 
 
-    <div id="fh5co-features" class="animate-box">
-        <div class="container">
-            <div class="services-padding">
-                <div class="row">
-                    <div class="col-md-8 col-md-offset-2 text-center fh5co-heading">
-                        <h2>My Services</h2>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-4 text-center">
-                        <div class="feature-left">
-							<span class="icon">
-								<i class="icon-paintbrush"></i>
-							</span>
-                            <div class="feature-copy">
-                                <h3>Web Design</h3>
-                                <p>Facilis ipsum reprehenderit nemo molestias. Aut cum mollitia reprehenderit.</p>
+    <div class="bg-brand">
+        <div class="mx-auto max-w-7xl text-center py-24">
+            <h2 class="text-[40px] text-white font-[400] mb-24">{{ $content->__('frontpage.headlines.services') }}</h2>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+                @foreach($services as $service)
+                    <div class="text-center px-2">
+                        <div class="mb-8">
+                            <div class="mx-auto mb-4 bg-white rounded-full w-[100px] h-[100px] flex items-center justify-center">
+                                @svg($service->icon, 'text-brand w-[60px]')
+                            </div>
+                            <div class="text-white">
+                                <h3 class="text-[24px] mb-6">{{ $service->name }}</h3>
+                                <p class="leading-[27px] text-[16px] font-[400] text-white text-opacity-75">{{ $service->description }}</p>
                             </div>
                         </div>
                     </div>
+                @endforeach
 
-                    <div class="col-md-4 text-center">
-                        <div class="feature-left">
-							<span class="icon">
-								<i class="icon-briefcase"></i>
-							</span>
-                            <div class="feature-copy">
-                                <h3>Branding</h3>
-                                <p>Facilis ipsum reprehenderit nemo molestias. Aut cum mollitia reprehenderit.</p>
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="col-md-4 text-center">
-                        <div class="feature-left">
-							<span class="icon">
-								<i class="icon-search"></i>
-							</span>
-                            <div class="feature-copy">
-                                <h3>Analytics</h3>
-                                <p>Facilis ipsum reprehenderit nemo molestias. Aut cum mollitia reprehenderit.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-                <div class="row">
-                    <div class="col-md-4 text-center">
-
-                        <div class="feature-left">
-							<span class="icon">
-								<i class="icon-bargraph"></i>
-							</span>
-                            <div class="feature-copy">
-                                <h3>Web Developent</h3>
-                                <p>Facilis ipsum reprehenderit nemo molestias. Aut cum mollitia reprehenderit.</p>
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <div class="col-md-4 text-center">
-                        <div class="feature-left">
-							<span class="icon">
-								<i class="icon-genius"></i>
-							</span>
-                            <div class="feature-copy">
-                                <h3>Web Marketing</h3>
-                                <p>Facilis ipsum reprehenderit nemo molestias. Aut cum mollitia reprehenderit.</p>
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="col-md-4 text-center">
-                        <div class="feature-left">
-							<span class="icon">
-								<i class="icon-chat"></i>
-							</span>
-                            <div class="feature-copy">
-                                <h3>Support</h3>
-                                <p>Facilis ipsum reprehenderit nemo molestias. Aut cum mollitia reprehenderit.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
 
-    <div id="fh5co-skills" class="animate-box">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-8 col-md-offset-2 text-center fh5co-heading">
-                    <h2>Skills</h2>
-                </div>
-            </div>
-            <div class="row row-pb-md">
-                <div class="col-md-3 col-sm-6 col-xs-12 text-center">
-                    <div class="chart" data-percent="95"><span><strong>HTML5</strong>95%</span></div>
-                </div>
-                <div class="col-md-3 col-sm-6 col-xs-12 text-center">
-                    <div class="chart" data-percent="93"><span><strong>CSS3</strong>93%</span></div>
-                </div>
-                <div class="col-md-3 col-sm-6 col-xs-12 text-center">
-                    <div class="chart" data-percent="90"><span><strong>jQuery</strong>90%</span></div>
-                </div>
+    <div class="bg-white">
+        <div class="mx-auto max-w-7xl mt-24 text-center">
+            <h2 class="mb-24 text-[40px] font-[400] text-black">{{ $content->__('frontpage.headlines.skills') }}</h2>
 
-                <div class="col-md-3 col-sm-6 col-xs-12 text-center">
-                    <div class="chart" data-percent="89"><span><strong>PHP</strong>89%</span></div>
-                </div>
-                <div class="col-md-3 col-sm-6 col-xs-12 text-center">
-                    <div class="chart" data-percent="85"><span><strong>MySQL</strong>85%</span></div>
-                </div>
-                <div class="col-md-3 col-sm-6 col-xs-12 text-center">
-                    <div class="chart" data-percent="90"><span><strong>AngularJS</strong>90%</span></div>
-                </div>
-                <div class="col-md-3 col-sm-6 col-xs-12 text-center">
-                    <div class="chart" data-percent="85"><span><strong>Ruby</strong>85%</span></div>
-                </div>
-                <div class="col-md-3 col-sm-6 col-xs-12 text-center">
-                    <div class="chart" data-percent="90"><span><strong>Java</strong>90%</span></div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="progress-wrap">
-                        <h3><span class="name-left">HTML5/CSS3</span><span class="value-right">95%</span></h3>
-                        <div class="progress">
-                            <div class="progress-bar progress-bar-1 progress-bar-striped active" role="progressbar"
-                                 aria-valuenow="90" aria-valuemin="0" aria-valuemax="100" style="width:90%">
-                            </div>
-                        </div>
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mb-24">
+                @foreach ($skills as $skill)
+                    <div class="flex items-center justify-center mb-10">
+                        <svg class="transform -rotate-90 w-[160px] h-[160px]">
+                            <circle cx="80" cy="80" r="78" stroke="currentColor" stroke-width="4" fill="transparent"
+                                    class="text-gray-100" />
+
+                            <circle cx="80" cy="80" r="78" stroke="currentColor" stroke-width="4" fill="transparent"
+                                    stroke-dasharray="{{ ($skill->percent * (2 * pi() * 78)) / 100 }} {{ (2 * pi() * 78) }}"
+                                    stroke-dashoffset="0"
+                                    class="text-brand" />
+                        </svg>
+                        <span class="absolute text-[16px] font-bold">{{ $skill->name }}</span>
                     </div>
-                    <div class="progress-wrap">
-                        <h3><span class="name-left">WordPress</span><span class="value-right">90%</span></h3>
-                        <div class="progress">
-                            <div class="progress-bar progress-bar-2 progress-bar-striped active" role="progressbar"
-                                 aria-valuenow="90" aria-valuemin="0" aria-valuemax="100" style="width:90%">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="progress-wrap">
-                        <h3><span class="name-left">PHP</span><span class="value-right">80%</span></h3>
-                        <div class="progress">
-                            <div class="progress-bar progress-bar-3 progress-bar-striped active" role="progressbar"
-                                 aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width:80%">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="progress-wrap">
-                        <h3><span class="name-left">Java</span><span class="value-right">85%</span></h3>
-                        <div class="progress">
-                            <div class="progress-bar progress-bar-4 progress-bar-striped active" role="progressbar"
-                                 aria-valuenow="85" aria-valuemin="0" aria-valuemax="100" style="width:85%">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="progress-wrap">
-                        <h3><span class="name-left">Design</span><span class="value-right">100%</span></h3>
-                        <div class="progress">
-                            <div class="progress-bar progress-bar-5 progress-bar-striped active" role="progressbar"
-                                 aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width:100%">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="progress-wrap">
-                        <h3><span class="name-left">Ruby</span><span class="value-right">70%</span></h3>
-                        <div class="progress">
-                            <div class="progress-bar progress-bar-striped active" role="progressbar"
-                                 aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:70%">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="progress-wrap">
-                        <h3><span class="name-left">Python</span><span class="value-right">85%</span></h3>
-                        <div class="progress">
-                            <div class="progress-bar progress-bar-1 progress-bar-striped active" role="progressbar"
-                                 aria-valuenow="85" aria-valuemin="0" aria-valuemax="100" style="width:85%">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="progress-wrap">
-                        <h3><span class="name-left">jQuery</span><span class="value-right">75%</span></h3>
-                        <div class="progress">
-                            <div class="progress-bar progress-bar-3 progress-bar-striped active" role="progressbar"
-                                 aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width:75%">
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                @endforeach
             </div>
         </div>
     </div>
+{{--
+    <div class="bg-contrary py-24">
+        <div class="mx-auto max-w-7xl text-center">
+            <h2 class="mb-24 text-[40px] font-[400] text-white">Work</h2>
 
-    <div id="fh5co-work" class="fh5co-bg-dark">
-        <div class="container">
-            <div class="row animate-box">
-                <div class="col-md-8 col-md-offset-2 text-center fh5co-heading">
-                    <h2>Work</h2>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-3 text-center col-padding animate-box">
-                    <a href="#" class="work">
-                        <div class="desc">
-                            <h3>Project Name</h3>
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 px-4">
+                <div class="aspect-square bg-[url('../images/portfolio-1.jpg')] bg-center bg-cover bg-no-repeat">
+                    <a href="#" class="w-full h-full flex flex-wrap items-center justify-center transition-all hover:bg-op hover:bg-white duration-300 text-black text-opacity-0 hover:text-opacity-100">
+                        <div>
+                            <h3 class="text-[20px] mb-[20px]">Project Name</h3>
                             <span>Illustration</span>
                         </div>
                     </a>
                 </div>
-                <div class="col-md-3 text-center col-padding animate-box">
-                    <a href="#" class="work" style="background-image: url(images/portfolio-2.jpg);">
-                        <div class="desc">
-                            <h3>Project Name</h3>
-                            <span>Brading</span>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-md-3 text-center col-padding animate-box">
-                    <a href="#" class="work" style="background-image: url(images/portfolio-3.jpg);">
-                        <div class="desc">
-                            <h3>Project Name</h3>
+                <div class="aspect-square bg-[url('../images/portfolio-2.jpg')] bg-center bg-cover bg-no-repeat">
+                    <a href="#" class="w-full h-full flex flex-wrap items-center justify-center transition-all hover:bg-op hover:bg-white duration-300 text-black text-opacity-0 hover:text-opacity-100">
+                        <div>
+                            <h3 class="text-[20px] mb-[20px]">Project Name</h3>
                             <span>Illustration</span>
                         </div>
                     </a>
                 </div>
-                <div class="col-md-3 text-center col-padding animate-box">
-                    <a href="#" class="work" style="background-image: url(images/portfolio-4.jpg);">
-                        <div class="desc">
-                            <h3>Project Name</h3>
-                            <span>Design</span>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-md-3 text-center col-padding animate-box">
-                    <a href="#" class="work" style="background-image: url(images/portfolio-5.jpg);">
-                        <div class="desc">
-                            <h3>Project Name</h3>
-                            <span>Website</span>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-md-3 text-center col-padding animate-box">
-                    <a href="#" class="work" style="background-image: url(images/portfolio-6.jpg);">
-                        <div class="desc">
-                            <h3>Project Name</h3>
-                            <span>Illustration</span>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-md-3 text-center col-padding animate-box">
-                    <a href="#" class="work" style="background-image: url(images/portfolio-7.jpg);">
-                        <div class="desc">
-                            <h3>Project Name</h3>
-                            <span>Brading</span>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-md-3 text-center col-padding animate-box">
-                    <a href="#" class="work" style="background-image: url(images/portfolio-8.jpg);">
-                        <div class="desc">
-                            <h3>Project Name</h3>
+                <div class="aspect-square bg-[url('../images/portfolio-3.jpg')] bg-center bg-cover bg-no-repeat">
+                    <a href="#" class="w-full h-full flex flex-wrap items-center justify-center transition-all hover:bg-op hover:bg-white duration-300 text-black text-opacity-0 hover:text-opacity-100">
+                        <div>
+                            <h3 class="text-[20px] mb-[20px]">Project Name</h3>
                             <span>Illustration</span>
                         </div>
                     </a>
@@ -476,140 +196,58 @@
         </div>
     </div>
 
-    <div id="fh5co-blog">
-        <div class="container">
-            <div class="row animate-box">
-                <div class="col-md-8 col-md-offset-2 text-center fh5co-heading">
-                    <h2>Post on Medium</h2>
-                    <p>Dignissimos asperiores vitae velit veniam totam fuga molestias accusamus alias autem provident. Odit ab aliquam dolor eius.</p>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="fh5co-blog animate-box">
-                        <a href="#" class="blog-bg" style="background-image: url(images/portfolio-1.jpg);"></a>
-                        <div class="blog-text">
-                            <span class="posted_on">Mar. 15th 2016</span>
-                            <h3><a href="#">Photoshoot On The Street</a></h3>
-                            <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-                            <ul class="stuff">
-                                <li><i class="icon-heart2"></i>249</li>
-                                <li><i class="icon-eye2"></i>308</li>
-                                <li><a href="#">Read More<i class="icon-arrow-right22"></i></a></li>
-                            </ul>
+    <div class="bg-white py-24">
+        <div class="mx-auto max-w-7xl text-center">
+            <h2 class="text-[40px] text-black">Post on Medium</h2>
+            <p class="text-[18px] mt-[20px] mb-[30px] text-gray-400 max-w-3xl mx-auto px-4">Dignissimos asperiores vitae velit veniam totam fuga molestias accusamus alias autem provident. Odit ab aliquam dolor eius.</p>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 text-left mt-24 px-8 lg:px-0">
+                @foreach (range(1, 3) as $blogpost)
+                    <div class="mb-[30px] shadow-[0px_2px_5px_2px_rgba(0,0,0,0.06)]">
+                        <div class="p-[30px]">
+                            <span class="text-[18px] mb-[20px] text-black text-opacity-30">Mar. 15th 2016</span>
+                            <h3 class="text-[24px] mb-[20px] text-black">
+                                <a href="#" class="relative group">
+                                    <span class="ease absolute bottom-0 left-0 h-0 w-0 border-b-2 border-brand transition-all duration-200 group-hover:w-full"></span>
+                                    Photoshoot On The Street
+                                </a>
+                            </h3>
+                            <p class="text-[16px] mb-[30px] text-black">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
+                            <div class="border-t-[0.8px] border-gray-200 text-right pt-4">
+                                <a href="#" class="relative group">
+                                    <span class="ease absolute bottom-0 left-0 h-0 w-0 border-b-2 border-brand transition-all duration-200 group-hover:w-full"></span>
+                                    Read More<i class="icon-arrow-right22 text-black text-opacity-50 ml-2"></i>
+                                </a>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="fh5co-blog animate-box">
-                        <a href="#" class="blog-bg" style="background-image: url(images/portfolio-2.jpg);"></a>
-                        <div class="blog-text">
-                            <span class="posted_on">Mar. 15th 2016</span>
-                            <h3><a href="#">Surfing at Philippines</a></h3>
-                            <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-                            <ul class="stuff">
-                                <li><i class="icon-heart2"></i>249</li>
-                                <li><i class="icon-eye2"></i>308</li>
-                                <li><a href="#">Read More<i class="icon-arrow-right22"></i></a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="fh5co-blog animate-box">
-                        <a href="#" class="blog-bg" style="background-image: url(images/portfolio-3.jpg);"></a>
-                        <div class="blog-text">
-                            <span class="posted_on">Mar. 15th 2016</span>
-                            <h3><a href="#">Capture Living On Uderwater</a></h3>
-                            <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-                            <ul class="stuff">
-                                <li><i class="icon-heart2"></i>249</li>
-                                <li><i class="icon-eye2"></i>308</li>
-                                <li><a href="#">Read More<i class="icon-arrow-right22"></i></a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
+                @endforeach
             </div>
         </div>
     </div>
-
-    <div id="fh5co-started" class="fh5co-bg-dark">
-        <div class="overlay"></div>
-        <div class="container">
-            <div class="row animate-box">
-                <div class="col-md-8 col-md-offset-2 text-center fh5co-heading">
-                    <h2>Hire Me!</h2>
-                    <p>Facilis ipsum reprehenderit nemo molestias. Aut cum mollitia reprehenderit. Eos cumque dicta adipisci architecto culpa amet.</p>
-                    <p><a href="#" class="btn btn-default btn-lg">Contact Us</a></p>
-                </div>
+--}}
+    <div class="bg-contrary py-24">
+        <div class="mx-auto max-w-7xl text-center">
+            <h2 class="text-[40px] text-white">{{ $content->__('frontpage.headlines.contact') }}</h2>
+            <div class="text-white text-opacity-[0.6] max-w-3xl mx-auto mt-[20px] mb-[40px] text-justify">
+                {!! nl2br($content->__('frontpage.contact.text')) !!}
             </div>
-        </div>
-    </div>
-
-    <div id="fh5co-consult">
-        <div class="video fh5co-video" style="background-image: url(images/cover_bg_1.jpg);">
-            <div class="overlay"></div>
-        </div>
-        <div class="choose animate-box">
-            <h2>Contact</h2>
-            <form action="#">
-                <div class="row form-group">
-                    <div class="col-md-6">
-                        <input type="text" id="fname" class="form-control" placeholder="Your firstname">
-                    </div>
-                </div>
-                <div class="row form-group">
-                    <div class="col-md-6">
-                        <input type="text" id="lname" class="form-control" placeholder="Your lastname">
-                    </div>
-                </div>
-
-                <div class="row form-group">
-                    <div class="col-md-12">
-                        <input type="text" id="email" class="form-control" placeholder="Your email address">
-                    </div>
-                </div>
-
-                <div class="row form-group">
-                    <div class="col-md-12">
-                        <input type="text" id="subject" class="form-control" placeholder="Your subject of this message">
-                    </div>
-                </div>
-
-                <div class="row form-group">
-                    <div class="col-md-12">
-                        <textarea name="message" id="message" cols="30" rows="10" class="form-control" placeholder="Say something about us"></textarea>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <input type="submit" value="Send Message" class="btn btn-primary">
-                </div>
-
-            </form>
-        </div>
-    </div>
-
-    <div id="map" class="fh5co-map"></div>
-</div>
-
-<div id="fh5co-footer">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <p>&copy; 2017 Free HTML5 Template. All Rights Reserved. <br>Designed by <a href="http://freehtml5.co" target="_blank">FreeHTML5.co</a> Demo Images: <a href="http://unsplash.com" target="_blank">Unsplash</a></p>
+            <div class="mt-[40px]">
+                <a href="mailto:{{ $content->__('frontpage.about.content.email') }}" class="px-8 py-4 bg-brand rounded-full">{{ $content->__('frontpage.contact.cta') }}</a>
             </div>
         </div>
     </div>
 </div>
 
-<div class="gototop js-top">
-    <a href="#" class="js-gotop"><i class="icon-arrow-up22"></i></a>
+<div class="bg-white py-10">
+    <div class="mx-auto max-w-7xl px-4">
+        <p>&copy; {{ now()->format('Y') }} {{ $content->__('frontpage.about.content.name') }}. {{ $content->__('frontpage.content.all-rights-reserved') }}.</p>
+    </div>
 </div>
 
-<!-- Main -->
-@vite(['resources/css/old/app.scss', 'resources/js/old/app.js'])
-<script src="https://cdnjs.cloudflare.com/ajax/libs/easy-pie-chart/2.1.6/jquery.easypiechart.js" defer></script>
+<a id="back-to-top" href="#" class="fixed right-[20px] bottom-[20px] z-[999] block rounded-full bg-black text-white w-[50px] h-[50px] opacity-50 hover:opacity-100 transition-opacity ease-in-out duration-200 flex flex-wrap items-center justify-center"><i class="icon-arrow-up22"></i></a>
+
+@vite(['resources/js/app.js'])
 
 </body>
 </html>

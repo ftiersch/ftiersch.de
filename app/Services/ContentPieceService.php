@@ -2,9 +2,11 @@
 
 namespace App\Services;
 
+use App\Enums\ContentPieceType;
 use App\Models\ContentPiece;
 use App\Repositories\ContentPieceRepository;
 use Illuminate\Support\Collection;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class ContentPieceService {
     protected Collection $contentPieces;
@@ -38,7 +40,26 @@ class ContentPieceService {
         return $contentPiece;
     }
 
+    public function exists(string $identifier): bool {
+        return $this->contentPieceRepo->exists($identifier);
+    }
+
     public function __(string $identifier): ?string {
+        $contentPiece = $this->contentPieces[$identifier] ?? null;
+
+        if (empty($contentPiece)) {
+            $contentPiece = $this->loadPiece($identifier);
+        }
+
+        if (empty($contentPiece)) {
+            $this->createDefault($identifier);
+            return null;
+        }
+
+        return $contentPiece->text;
+    }
+
+    public function media(string $identifier): ?Media {
         $contentPiece = $this->contentPieces[$identifier] ?? null;
 
         if (empty($contentPiece)) {
@@ -49,6 +70,15 @@ class ContentPieceService {
             return null;
         }
 
-        return $contentPiece->valueByType;
+        return $contentPiece->getFirstMedia('image');
+    }
+
+    protected function createDefault(string $identifier, ContentPieceType $type = ContentPieceType::Text): ContentPiece {
+        $piece = new ContentPiece();
+        $piece->identifier = $identifier;
+        $piece->type = $type;
+        $piece->save();
+
+        return $piece;
     }
 }

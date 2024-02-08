@@ -14,4 +14,8 @@ class ContentPieceRepository {
     public function getByIdentifier(string $identifier): ?ContentPiece {
         return ContentPiece::where('identifier', $identifier)->first();
     }
+
+    public function exists(string $identifier): bool {
+        return ContentPiece::where('identifier', $identifier)->exists();
+    }
 }

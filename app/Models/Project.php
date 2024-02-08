@@ -2,11 +2,11 @@
 
 namespace App\Models;
 
-use App\Enums\ProjectType;
 use App\Traits\InvalidatesFrontpageCache;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\Translatable\HasTranslations;
 
 class Project extends Model
@@ -18,12 +18,15 @@ class Project extends Model
     public $translatable = ['title', 'description', 'location'];
 
     public $casts = [
-        'type' => ProjectType::class,
         'started_at' => 'date',
         'finished_at' => 'date',
     ];
 
     protected $guarded = [];
+
+    public function category(): BelongsTo {
+        return $this->belongsTo(ProjectCategory::class, 'project_category_id');
+    }
 
     // TODO:test
     public function scopeVisibleOnWebsite(Builder $query): Builder {

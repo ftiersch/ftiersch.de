@@ -14,10 +14,17 @@ return new class extends Migration
         Schema::create('content_pieces', function (Blueprint $table) {
             $table->id();
 
-            $table->string('identifier');
+            $table
+                ->string('identifier')
+                ->unique()
+                ->index();
+
             $table->string('type');
 
             $table->json('text')->nullable();
+
+            $table->smallInteger('image_conversion_width')->nullable();
+            $table->smallInteger('image_conversion_height')->nullable();
 
             $table->timestamps();
         });

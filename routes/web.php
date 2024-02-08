@@ -13,8 +13,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return redirect(app()->getLocale());
+Route::get('/', function (\Illuminate\Http\Request $request) {
+    return redirect($request->getPreferredLanguage(config('app.available_locales')));
 });
 
 Route::prefix('{locale}')

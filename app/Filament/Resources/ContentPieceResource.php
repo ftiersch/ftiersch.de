@@ -39,10 +39,23 @@ class ContentPieceResource extends Resource
                     ->options(ContentPieceType::options())
                     ->live(),
                 Forms\Components\Textarea::make('text')
-                    ->hidden(fn (Get $get): bool => $get('type') != ContentPieceType::Text->value),
+                    ->label(function (Get $get) {
+                        return $get('type') == ContentPieceType::Image->value ? 'Alt Text' : 'Text';
+                    })
+                    ->hidden(fn (Get $get): bool => !in_array($get('type'), [ContentPieceType::Text->value, ContentPieceType::Image->value])),
                 Forms\Components\RichEditor::make('text')
                     ->hidden(fn (Get $get): bool => $get('type') != ContentPieceType::Html->value),
                 Forms\Components\SpatieMediaLibraryFileUpload::make('image')
+                    ->collection('image')
+                    ->hidden(fn (Get $get): bool => $get('type') != ContentPieceType::Image->value),
+
+                Forms\Components\TextInput::make('image_conversion_width')
+                    ->label('Anzeigebreite')
+                    ->numeric()
+                    ->hidden(fn (Get $get): bool => $get('type') != ContentPieceType::Image->value),
+                Forms\Components\TextInput::make('image_conversion_height')
+                    ->label('Anzeigehöhe')
+                    ->numeric()
                     ->hidden(fn (Get $get): bool => $get('type') != ContentPieceType::Image->value),
             ]);
     }
@@ -55,6 +68,8 @@ class ContentPieceResource extends Resource
                     ->label('Identifier')
                     ->sortable()
                     ->searchable(),
+                Tables\Columns\SpatieMediaLibraryImageColumn::make('image')
+                    ->label('Bild'),
                 Tables\Columns\TextColumn::make('filledTranslations')
                     ->label('Übersetzungen')
                     ->formatStateUsing(function (string $state) {
@@ -64,7 +79,9 @@ class ContentPieceResource extends Resource
                     }),
             ])
             ->filters([
-                //
+                Tables\Filters\Filter::make('is_empty')
+                    ->label('Ist leer')
+                    ->query(fn (Builder $query) => $query->whereIn('type', [ContentPieceType::Text->value, ContentPieceType::Html->value])->whereNull('text')),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

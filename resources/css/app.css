@@ -1,4 +1,4 @@
-@import "../../fonts/icomoon/icomoon/style.css";
+@import "../fonts/icomoon/icomoon/style.css";
 
 @tailwind base;
 @tailwind components;

@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\ProjectResource\Pages;
 use App\Filament\Resources\ProjectResource\RelationManagers;
 use App\Models\Project;
+use App\Models\ProjectCategory;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Concerns\Translatable;
@@ -28,14 +29,10 @@ class ProjectResource extends Resource
             ->schema([
                 Forms\Components\Grid::make(1)
                     ->schema([
-                        Forms\Components\Select::make('type')
+                        Forms\Components\Select::make('project_category_id')
                             ->label('Typ')
-                            ->options([
-                                'education' => 'Schule',
-                                'professional' => 'Arbeit',
-                                'freelance' => 'Freiberuflich',
-                            ])
-                            ->default('freelance')
+                            ->relationship('category')
+                            ->getOptionLabelFromRecordUsing(fn (ProjectCategory $record) => $record->title)
                             ->required(),
                         Forms\Components\Grid::make(2)
                             ->schema([
@@ -98,8 +95,9 @@ class ProjectResource extends Resource
                 ]),
             ])
             ->defaultGroup(
-                Tables\Grouping\Group::make('type')
-                    ->getTitleFromRecordUsing(fn (Project $record): string => ucfirst($record->type->label()))
+                Tables\Grouping\Group::make('project_category_id')
+                    ->label('Kategorie')
+                    ->getTitleFromRecordUsing(fn (Project $record): string => $record->category->title)
                     ->collapsible()
             );
     }

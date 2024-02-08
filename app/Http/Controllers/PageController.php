@@ -24,13 +24,13 @@ class PageController extends Controller
         $content = cache()->get(CacheKey::Frontpage);
 
         if (!$content || app()->environment('local')) {
-            $projectGroups = $projectRepo->getForWebsite();
+            $projectCategories = $projectRepo->getForWebsite();
             $skills = $skillRepo->getForWebsite();
             $services = $serviceRepo->getForWebsite();
             $socials = $socialRepo->getForWebsite();
             $contentPieceService->loadNamespace('frontpage');
 
-            $content = view('new.index_new', compact("projectGroups", "skills", "services", "socials"))->render();
+            $content = view('index', compact("projectCategories", "skills", "services", "socials"))->render();
 
             cache()->put(CacheKey::Frontpage, $content);
         }
