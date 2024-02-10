@@ -22,6 +22,7 @@ sudo ln -s "$(pwd)/public" ../../current
 sudo chown -h www-data:www-data ../../current
 
 php artisan migrate --force
+php artisan cache:clear
 
 # delete old releases
 old_releases=($(ls -1t .. | tail +3))

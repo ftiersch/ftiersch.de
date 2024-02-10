@@ -10,5 +10,9 @@ trait InvalidatesFrontpageCache {
         static::saved(function (Model $model) {
             cache()->forget(CacheKey::Frontpage);
         });
+
+        static::deleted(function (Model $model) {
+            cache()->forget(CacheKey::Frontpage);
+        });
     }
 }

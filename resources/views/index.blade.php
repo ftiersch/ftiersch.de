@@ -29,6 +29,10 @@
 
     @vite('resources/css/app.css')
 
+    @if($content->exists('frontpage.trackingcode'))
+        {!! $content->__('frontpage.trackingcode') !!}
+    @endif
+
 </head>
 <body>
 
@@ -48,11 +52,8 @@
         </div>
     </header>
 
-    <div class="py-14 px-0">
+    <div class="py-24 px-0">
         <div class="mx-auto max-w-7xl">
-            <div class="mb-24 text-center">
-                <h2 class="text-[40px] mb-[20px] text-black">{{ $content->__('frontpage.headlines.about') }}</h2>
-            </div>
             <div class="grid grid-cols-1 px-4 lg:px-0 lg:grid-cols-3 gap-4 w-full">
                 <div class="col-span-full lg:col-span-1 mb-8 lg:mb-0 px-4">
                     <div class="grid grid-cols-10 gap-4">
@@ -64,7 +65,7 @@
                 </div>
                 <div class="col-span-full lg:col-span-2 px-4">
                     <h2 class="text-[30px] font-[400] leading-[24px] mb-6">{{ $content->__('frontpage.about.headline') }}</h2>
-                    <p class="mb-8">{!! nl2br($content->__('frontpage.about.text')) !!}</p>
+                    <p class="mb-8 text-justify">{!! nl2br($content->__('frontpage.about.text')) !!}</p>
                     <p>
                         <ul class="flex flex-wrap text-white text-[20px] font-[400]">
                             @foreach($socials as $social)
@@ -81,7 +82,7 @@
         </div>
     </div>
 
-    <div class="py-24 mt-20 bg-contrary">
+    <div class="py-24 bg-contrary">
         <div class="mx-auto max-w-7xl">
             <div class="w-full text-center">
                 <h2 class="text-white text-[40px] mb-24">{{ $content->__('frontpage.headlines.resume') }}</h2>
@@ -121,7 +122,7 @@
         <div class="mx-auto max-w-7xl text-center py-24">
             <h2 class="text-[40px] text-white font-[400] mb-24">{{ $content->__('frontpage.headlines.services') }}</h2>
 
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 @foreach($services as $service)
                     <div class="text-center px-2">
                         <div class="mb-8">
@@ -130,7 +131,7 @@
                             </div>
                             <div class="text-white">
                                 <h3 class="text-[24px] mb-6">{{ $service->name }}</h3>
-                                <p class="leading-[27px] text-[16px] font-[400] text-white text-opacity-75">{{ $service->description }}</p>
+                                <p class="leading-[27px] text-[16px] font-[400] text-white text-opacity-75 text-justify">{{ $service->description }}</p>
                             </div>
                         </div>
                     </div>
@@ -229,7 +230,7 @@
     <div class="bg-contrary py-24">
         <div class="mx-auto max-w-7xl text-center">
             <h2 class="text-[40px] text-white">{{ $content->__('frontpage.headlines.contact') }}</h2>
-            <div class="text-white text-opacity-[0.6] max-w-3xl mx-auto mt-[20px] mb-[40px] text-justify">
+            <div class="text-white text-opacity-[0.6] max-w-3xl mx-auto mt-[20px] mb-24 text-justify">
                 {!! nl2br($content->__('frontpage.contact.text')) !!}
             </div>
             <div class="mt-[40px]">
